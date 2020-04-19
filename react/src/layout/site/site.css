@@ -1,0 +1,140 @@
+.site__page {
+    width: 100%;
+    min-height: 100vh;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding-top: 40px;
+}
+
+.site__page-inner {
+    background-color: #fff;
+    margin: auto;
+    padding:30px;
+    border-radius: 4px;
+    position: relative;
+    -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+    -moz-box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+}
+
+.site__page-body .linear-progress {
+    position: absolute;
+    width:100%;
+    left: 0;
+    top: 0;
+}
+
+.site__inc {
+    position: relative;
+    margin-top: 40px;
+    background: rgba(0, 0, 0, .14);
+    color: rgba(255, 255, 255, .7);
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+.site__header {
+    margin-bottom: 10px;
+}
+
+.title {
+    display: block;
+    padding:0;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight:bold;
+}
+
+.text {
+    display: block;
+    color: #72767d;
+}
+
+.alert {
+    margin-top: 20px;
+}
+
+.site__form-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.label {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 6px;
+    line-height: 16px;
+    color: #74787b;
+}
+
+.site__form-item input {
+    width: 100%;
+    padding: 8px 35px 8px 10px;
+    background: #f0f8ff;
+    border: 1px solid #f2f1f6;
+    border-radius: 4px;
+}
+
+.site__form-item input:hover {
+    border-color: #74787b;
+}
+
+.site__form-item input:focus {
+    border-color: #006792;;
+}
+
+.icon {
+    position: absolute;
+    right: 6px;
+    bottom: 0;
+    height: 35px;
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+}
+
+.icon .fa {
+    font-size: 20px;
+    color: #74787b;
+}
+
+.btn {
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    height: 38px;
+}
+
+@media (min-width: 768px) {
+    .site__form {
+        min-width: 340px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .site__page {
+        padding-top: 20px;
+        padding-left:20px;
+        padding-right:20px;
+    }
+
+    .site__page-inner {
+        min-width: initial;
+        width: 100%;
+    }
+
+    .site__inc {
+        margin-top: 20px;
+        padding: 5px 0;
+        margin-left:-20px;
+        margin-right:-20px;
+    }
+}

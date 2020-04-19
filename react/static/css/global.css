@@ -1,0 +1,344 @@
+:root {
+    --theme-background: aliceblue;
+    --template-background: #607d8b;
+    --template-background-hover: #005679;
+    --default-border-radius: 4px;
+    --aside-width: 280px;
+}
+
+body {
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #333;
+    text-align: left;
+    min-height: 100%;
+    font: 14px "Roboto Regular";
+}
+
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+input,
+button,
+select,
+textarea {
+    outline: none;
+    font: 14px "Roboto Regular";
+}
+
+hr,
+img {
+    border: 0;
+}
+
+a {
+    color: #006792;
+    text-decoration: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.cur-p {
+    cursor: pointer !important;
+}
+
+.btn {
+    border: none;
+    background: gray;
+    color: #fff;
+    padding: 8px 12px;
+    display: inline-block;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+a.btn {
+    text-decoration: none;
+}
+
+.btn-low {
+    background: #66BB6A;
+    padding: 4px 12px;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.btn-low:hover {
+    background: #5aa25d;
+}
+
+.btn-blue {
+    background-color: #006792;
+}
+
+.btn-blue:hover {
+    background-color: rgba(0, 103, 146, .85)
+}
+
+.btn-success {
+    background-color: #6ebf23;
+}
+
+.btn-success:hover {
+    background-color: #56b500;
+}
+
+.btn-upload {
+    background: #ff4500;
+}
+
+.btn-upload:hover {
+    background: #ff6f3a;
+}
+
+.item-operations {
+    width: 120px;
+}
+
+.error {
+    font-size: 13px;
+    color: #ff4747;
+}
+
+.layout__wrapper-title {
+    margin-bottom: 20px;
+}
+
+
+.data__table {
+    width: 100%;
+    min-width: 650px;
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.data__table select,
+.data__table input,
+.data__table button {
+    outline: none;
+}
+
+.data__table-head,
+.data__table-body {
+    display: table-header-group;
+}
+
+.data__table .red__line,
+.data__table .red__line .data__table-body__item a {
+    color: red;
+}
+
+.data__table-head__wrapper,
+.data__table-body__wrapper {
+    color: inherit;
+    display: table-row;
+    outline: 0;
+    vertical-align: middle;
+}
+
+.data__table-head__item,
+.data__table-body__item {
+    color: #333;
+    font-weight: 500;
+    line-height:1;
+}
+
+.data__table-head__item,
+.data__table-body__item {
+    display: table-cell;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: "Roboto Regular";
+    font-weight: 400;
+    border-bottom: 1px solid #e8e8e8;
+    vertical-align: inherit;
+}
+
+.data__table-head__actions th {
+    padding-bottom: 10px;
+}
+
+.data__table-head__actions .actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.data__table-head__wrapper .data__table-head__item {
+    padding: 10px 12px;
+    color: #fff;
+    font-family: "Roboto Medium";
+}
+
+.data__table-body__wrapper .data__table-body__item::first-letter,
+.data__table-head__wrapper .data__table-head__item::first-letter {
+    text-transform: uppercase;
+}
+
+.data__table-head__wrapper {
+    background: var(--template-background);
+}
+
+.data__table-body__wrapper:nth-child(even) {
+    background: var(--theme-background);
+}
+
+.data__table-body__wrapper:nth-child(odd) {
+    background: #f9f9f9;
+}
+
+.data__table-body__wrapper:hover {
+    background: #c2d4dc;
+}
+
+.data__table-head__actions select,
+.data__table-head__actions input {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #f2f1f6;
+    padding: 6px 12px;
+}
+
+.data__table-head__actions .data__table-action__search {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.data__table-head__actions .data__table-action__search input.search {
+    margin-right: 6px;
+    display: block;
+    color: #8d9498;
+}
+
+.data__table-head__actions .data__table-action__search input.search::placeholder {
+    color: inherit;
+}
+
+.data__table-head__actions .data__table-action__search i.fa {
+    font-size: 16px;
+    color: var(--template-background);
+}
+
+.data__table-head__actions .data__table-action__pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: #8d9498;
+    font-weight: normal;
+}
+
+.data__table-head__actions .data__table-action__pagination .divider {
+    width: 1px;
+    height: 26px;
+    margin: 0 8px;
+    background: #e4e4e4;
+}
+
+.data__table-head__actions .data__table-action__pagination select,
+.data__table-head__actions .data__table-action__pagination input {
+    padding: 6px;
+    margin-left: 4px;
+    width: 60px;
+    color: inherit;
+}
+
+.data__table-head__actions .data__table-action__pagination .lines span.title {
+    display: inline-block;
+}
+
+.data__table-head__actions .data__table-action__pagination span::first-letter {
+    text-transform: uppercase;
+}
+
+.data__table-head__actions .data__table-action__goto {
+    margin: 0 6px;
+}
+
+.data__table-head__actions .data__table-action__goto input {
+    margin-right: 6px;
+}
+
+.data__table-head__actions .data__table-action__pagination .nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.data__table-head__actions .data__table-action__pagination .nav button {
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 0 4px;
+    margin: 0 2px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.data__table-head__actions .data__table-action__pagination .nav button[disabled] {
+    cursor: no-drop;
+    color: #8d9498;
+}
+
+.data__table-head__actions .data__table-action__pagination .nav button:not([disabled]) {
+    color: var(--template-background);
+}
+
+.data__table-head__actions .data__table-action__pagination .nav button.start-page {
+    margin-left: 0;
+}
+
+.data__table-head__actions .data__table-action__pagination .nav button:not([disabled]):hover {
+    color: #333;
+}
+
+.data__table-body__item .data__table-operations {
+    color: var(--template-background);
+}
+
+.data__table-body__item .data__table-operations i.fa {
+    margin:0 4px;
+    cursor: pointer;
+}
+
+.data__table-body__item .data__table-operations a.icon-delete {
+    color: #ff3131;
+}
+
+.scroll-table {
+    overflow: auto;
+}
+
+.item-number {
+    width: 30px;
+}
+
+.btn-cancel {
+    font-size: 13px;
+    padding: 3px 6px;
+    background: #E57373;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.btn-cancel:hover {
+    background: #EF5350;
+}

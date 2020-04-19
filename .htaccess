@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+    RewriteEngine On
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_URI} ^/api
+    RewriteRule ^.*$ /api/web/$1
+</IfModule>

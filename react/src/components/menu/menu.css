@@ -1,0 +1,26 @@
+.nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-item {
+    position: relative;
+    margin-right: 15px;
+    height: 100%;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: #fff;
+    font-size: 15px;
+}
+
+.nav-link:hover {
+    color: #8ddaff;
+}

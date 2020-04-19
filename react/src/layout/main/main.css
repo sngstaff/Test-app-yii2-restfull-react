@@ -1,0 +1,75 @@
+.layout__header {
+    background: #607d8b;
+}
+
+.layout__body {
+    position: relative;
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 100%;
+    display: inline-block;
+}
+
+.layout__cell {
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 1160px;
+}
+
+.layout__cell-body {
+    padding-bottom: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.main__navbar {
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+}
+
+.layout__header-column__left,
+.layout__header-column__right {
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 100%;
+}
+
+.layout__header-column__left {
+    flex: 1 1 0;
+}
+
+.logotype {
+    margin-right: 30px;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #f0f8ff;
+}
+
+div.linear-progress {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.layout__wrapper {
+    width: 100%;
+}
+
+.layout__wrapper-header {
+    margin-bottom: 20px;
+}
