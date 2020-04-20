@@ -6,6 +6,10 @@ export const Employee = [
         link: '/'
     },
     {
+        name: 'Клиенты',
+        link: '/clients'
+    },
+    {
         name: 'Книги',
         link: '/books'
     },

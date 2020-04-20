@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTable, useGlobalFilter, usePagination, useSortBy } from 'react-table';
 
-import './books.css';
+import './book-return.css';
 
 import { Breadcrumbs } from "@components/global";
 import { Progress } from '@progress/linear';
 import { Alert } from "@alert";
 import ApiService from "@services/apiService";
+import { config } from "@config";
 
 function GlobalFilter({ globalFilter, setGlobalFilter }) {
     return (
@@ -52,14 +53,14 @@ function Table({ columns, data }) {
             <table className="data__table" { ...getTableProps() }>
                 <thead className="data__table-head">
                 <tr className="data__table-head__actions">
-                    <th colSpan="1">
+                    <th colSpan="2">
                         <GlobalFilter
                             preGlobalFilteredRows={ preGlobalFilteredRows }
                             globalFilter={ state.globalFilter }
                             setGlobalFilter={ setGlobalFilter }
                         />
                     </th>
-                    <th colSpan="7">
+                    <th colSpan="6">
                         <div className="data__table-action__pagination">
                             <div className="lines">
                                 <span className="viewed">
@@ -121,7 +122,7 @@ function Table({ columns, data }) {
                         </tr>
                     );
                 }) : (<tr className="data__table-body__wrapper">
-                    <td className="data__table-body__item" colSpan="6">Нет данных</td>
+                    <td className="data__table-body__item" colSpan="8">Нет данных</td>
                 </tr>) }
                 </tbody>
             </table>
@@ -129,27 +130,16 @@ function Table({ columns, data }) {
     );
 }
 
-function UserBooks(props) {
+function BookReturn() {
     const
-        breadcrumbs = [
-            { link: '/clients', name: 'Клиенты' },
-            { name: 'Список книг клиента' },
-        ],
+        breadcrumbs = [{ name: 'Возврат книги' }],
         [ books, setBooks ] = useState([]),
-        [ user, setUser ] = useState([]),
         [ loading, setLoading ] = useState(true),
         [ error, setError ] = useState(false),
         [ message, setMessage ] = useState('');
 
     useEffect(() => {
-        let { id } = props.match.params;
-
-        (new ApiService).getUser(id)
-            .then(res => {
-                setUser(res);
-            });
-
-        (new ApiService).getUserBooks(id)
+        (new ApiService()).getDeliveries()
             .then(res => {
                 setLoading(false);
                 setBooks(res);
@@ -160,62 +150,63 @@ function UserBooks(props) {
                     setError(true);
                     setMessage('Повторите попытку позже');
                 }
-            });
+            })
     }, []);
+
+    function returnBook(delivery) {
+        let { delivery_id, book_id, quantity, order_id } = delivery;
+
+        (new ApiService()).returnBook({ delivery_id, book_id, quantity, order_id })
+            .then(res => {
+                if (res.status === 200) {
+                    setMessage(res.message);
+                }
+            })
+    }
 
     const columns = useMemo(
         () => [
+            {
+                Header: 'Номер',
+                accessor: ({ order_id }) => (<div className="text-center">{ order_id }</div>),
+                className: 'data__table-head__item item-number text-center',
+            },
+            {
+                Header: 'Клиент',
+                accessor: ({ client_name, client_surname }) => client_name + ' ' + client_surname,
+                className: 'data__table-head__item',
+            },
             {
                 Header: 'Книга',
                 accessor: 'book_title',
                 className: 'data__table-head__item'
             },
             {
-                Header: 'Выдал',
-                accessor: ({ employee_name, employee_surname }) => employee_name + ' ' + ( employee_surname !== null ? employee_surname : '' ),
-                className: 'data__table-head__item'
-            },
-            {
-                Header: 'Дата возврата',
-                accessor: ({ issue_at }) => new Date(issue_at*1000).toLocaleDateString("ru-RU"),
-                className: 'data__table-head__item'
-            },
-            {
-                Header: 'Дата выдачи',
-                accessor: ({ created_at }) => new Date(created_at*1000).toLocaleDateString("ru-RU") + ' ' + new Date(created_at*1000).toLocaleTimeString("ru-RU"),
+                Header: 'Артикул',
+                accessor: 'book_code',
                 className: 'data__table-head__item'
             },
             {
                 Header: 'Кол-во',
-                accessor: 'book_quantity',
+                accessor: 'quantity',
                 className: 'data__table-head__item'
             },
             {
-                Header: 'Состояние книги',
-                accessor: 'status',
+                Header: 'Статус',
+                accessor: () => 'Вернул',
                 className: 'data__table-head__item'
             }
         ]
     );
 
-    function clientInfo() {
-        if (user.length !== 0) {
-            let { name, surname } = user;
-            return (name + ' ' + (surname !== null ? surname : ''))
-        }
-
-        return false;
-    }
-
     return (
         <>
         <Breadcrumbs routes={ breadcrumbs } />
-
         { message && !error ? <Alert color="success">{ message }</Alert> : null }
         { error ? <Alert color="error">{ message }</Alert> : null }
         <div className="layout__wrapper">
             <div className="layout__wrapper-title">
-                <span className="title">Список книг клиента: { clientInfo() }</span>
+                <span className="title">Список возвращаемых книг</span>
             </div>
             { loading ? <Progress /> : <Table columns={ columns } data={ books } /> }
         </div>
@@ -223,4 +214,4 @@ function UserBooks(props) {
     )
 }
 
-export { UserBooks }
+export { BookReturn }

@@ -3,6 +3,7 @@
 namespace api\modules\v1\controllers;
 
 
+use common\models\BookOrder;
 use yii\db\Query;
 use yii\rest\ActiveController;
 use Yii;
@@ -76,10 +77,10 @@ class ClientController extends ActiveController
     public function actionIndex()
     {
         return (new Query())
-            ->select('user.id, COUNT(bd.id) as count_books, user.name, user.surname, user.passport_series')
+            ->select('user.id, COUNT(bo.id) as count_books, user.name, user.surname, user.passport_series')
             ->from('user')
             ->where(['user.roles' => User::ROLE_CLIENT, 'user.status' => User::STATUS_ACTIVE])
-            ->leftJoin('book_delivery bd', '"bd"."client_id" = "user"."id"')
+            ->leftJoin('book_order bo', '"bo"."client_id" = "user"."id" AND bo.status = ' . BookOrder::STATUS_ISSUED)
             ->groupBy('user.id')
             ->all();
     }

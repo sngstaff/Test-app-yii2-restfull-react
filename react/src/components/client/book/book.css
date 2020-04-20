@@ -1,7 +1,7 @@
 .book__container {
     margin: 20px 0;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     width: 100%;
     column-gap: 20px;
     row-gap: 20px;
@@ -102,7 +102,6 @@
     height: 0;
 }
 
-/* The slider */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -147,4 +146,23 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+    .book__container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .book__container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .book__container {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }

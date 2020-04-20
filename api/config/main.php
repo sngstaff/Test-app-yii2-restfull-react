@@ -61,7 +61,9 @@ return [
                         'v1/book',
                         'v1/user',
                         'v1/client',
-                        'v1/book-order'
+                        'v1/book-order',
+                        'v1/book-delivery',
+                        'v1/book-return',
                     ]
                 ],
 

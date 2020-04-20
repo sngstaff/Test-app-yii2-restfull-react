@@ -64,13 +64,12 @@ class Book extends ActiveRecord
     {
         return (new Query())
             ->from('book_delivery as bd')
-            ->select('bd.issue_at, bd.created_at, bo.quantity, b.title as book_title, c.name as client_name, c.surname as client_surname, c.id as client_id, br.status, e.name as employee_name, e.surname as employee_surname, e.id as employee_id')
-            ->where(['bd.client_id' => $userId])
+            ->select('DISTINCT ON (bo.id) bd.issue_at, bd.created_at, bo.quantity as book_quantity, b.title as book_title, br.status, e.name as employee_name, e.surname as employee_surname, e.id as employee_id')
+            ->where('bd.client_id = ' . $userId . ' AND bo.status = 1')
             ->leftJoin('book as b', 'b.id = bd.book_id')
-            ->leftJoin('user as c', 'c.id = bd.client_id')
             ->leftJoin('user as e', 'e.id = bd.employee_id')
             ->leftJoin('book_reference as br', 'br.id = bd.reference_id')
-            ->leftJoin('book_order as bo', 'bo.client_id = bd.client_id AND bo.book_id = bd.book_id AND bo.status = ' . BookOrder::STATUS_ISSUED)
+            ->leftJoin('book_order as bo', 'bo.client_id = bd.client_id AND bo.book_id = bd.book_id')
             ->all();
     }
 }

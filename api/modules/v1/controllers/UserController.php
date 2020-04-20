@@ -51,7 +51,7 @@ class UserController extends ActiveController
                 [
                     'allow' => true,
                     'actions' => ['index', 'create', 'view', 'update', 'delete'],
-                    'roles' => [User::ROLE_ADMIN]
+                    'roles' => [User::ROLE_ADMIN, User::ROLE_EMPLOYEE]
                 ],
                 [
                     'allow' => true,
@@ -91,7 +91,9 @@ class UserController extends ActiveController
         $model->status = User::STATUS_ACTIVE;
         $model->load($params, "");
 
+
         if ($model->save() && $model->validate()) {
+            $this->setRole($model->roles, $model->id);
             $response = Yii::$app->getResponse();
             $response->setStatusCode(201);
             return ['status' => 201, 'message' => 'Пользователь успешно добавлен.'];
@@ -100,6 +102,19 @@ class UserController extends ActiveController
         }
 
         return $model;
+    }
+
+    private function setRole(string $role, int $userId)
+    {
+        switch ($role) {
+            case USER::ROLE_EMPLOYEE:
+                $userRole = Yii::$app->authManager->getRole('employee');
+                Yii::$app->authManager->assign($userRole, $userId);
+                break;
+            case USER::ROLE_CLIENT:
+                $userRole = Yii::$app->authManager->getRole('employee');
+                Yii::$app->authManager->assign($userRole, $userId);
+        }
     }
 
     public function actionDelete($id)

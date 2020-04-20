@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import cookie from "react-cookies";
 
 import "./menu.css";
@@ -12,6 +12,7 @@ import { MenuItem } from "./menu-item";
 function Menu() {
     let
         role = cookie.load('user')['user']['roles'],
+        [ toggle, setToggle ] = useState(false),
         list = [];
 
     switch (role) {
@@ -31,13 +32,16 @@ function Menu() {
     }
 
     return (
-        <ul className="nav">
-            {
-                list.map((item, key) =>
-                    <MenuItem item={item} key={key} />
-                )
-            }
-        </ul>
+        <div className="collapse">
+            <button className="toggle" onClick={ () => setToggle(!toggle) } aria-expanded={ toggle } ><span className="burger" /></button>
+            <ul className={`nav` + (toggle ? ' show' : '') }>
+                {
+                    list.map((item, key) =>
+                        <MenuItem item={item} key={key} />
+                    )
+                }
+            </ul>
+        </div>
     )
 }
 

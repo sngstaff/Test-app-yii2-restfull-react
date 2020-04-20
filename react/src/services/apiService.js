@@ -181,6 +181,42 @@ export default class ApiService {
         return this.getResource(`/v1/book-orders/${id}`, options);
     }
 
+    giveBook(data) {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': authHeader().Authorization
+            },
+            body: JSON.stringify(data)
+        };
+
+        return this.getResource(`/v1/book-deliveries`, options);
+    }
+
+    getDeliveries() {
+        const options = {
+            method: 'GET',
+            headers: authHeader()
+        };
+
+        return this.getResource(`/v1/book-returns`, options);
+    }
+
+    returnBook(data) {
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': authHeader().Authorization
+            },
+            body: JSON.stringify(data)
+        };
+
+        return this.getResource(`/v1/book-returns`, options);
+    }
+
+
     static setUser(data) {
         return new Promise((resolve, reject) => {
             if (typeof data !== 'object' || Array.isArray(data))

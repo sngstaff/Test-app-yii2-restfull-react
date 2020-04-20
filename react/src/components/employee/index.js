@@ -1,7 +1,7 @@
-import { Book } from "./book";
+import { Order } from "./order";
 import { BookReturn } from "./book-return";
 
 export {
-    Book,
+    Order,
     BookReturn
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { NavLink } from 'react-router-dom';
 import { useTable, useGlobalFilter, usePagination, useSortBy } from 'react-table';
 
 import './order.css';
@@ -209,6 +208,8 @@ function Order() {
                             return 'В обработке';
                         case config.STATUS_ISSUED:
                             return 'Выдан';
+                        case config.STATUS_RETURNED:
+                            return 'Возвращен';
                         default:
                             return 'Не известно'
                     }
@@ -217,7 +218,16 @@ function Order() {
             },
             {
                 Header: 'Операции',
-                accessor: ({ order_id }) => (<span className="btn-cancel"  onClick={ () => deleteOrder(order_id) }>Отменить</span>),
+                accessor: order => {
+                    let { status, order_id } = order;
+
+                    switch (status) {
+                        case config.STATUS_WAIT:
+                            return (<span className="btn-op btn-cancel" onClick={() => deleteOrder(order_id)}>Отменить</span>);
+                        default:
+                            return '-'
+                    }
+                },
                 className: 'data__table-head__item'
             }
         ]

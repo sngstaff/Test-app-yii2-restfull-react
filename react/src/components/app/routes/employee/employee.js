@@ -3,21 +3,17 @@ import { Main } from '@layout';
 import { NotFound } from "@layout/main/404";
 
 /* components or pages */
-import { Book } from "@pages";
+import { Book, Client } from "@pages";
 import { Create as bookCreate, Edit as bookEdit, UserBooks } from "@pages/book";
-
-const Test = () => {
-    return (
-        <h1>test</h1>
-    )
-};
+import { Order, BookReturn } from "@components/employee";
+import { Create as clientCreate, Edit as clientEdit } from "@pages/client";
 
 export const Employee = [
     {
         layout: Main,
         isPrivate: "true",
         path: "/",
-        component: Test
+        component: Order
     },
     {
         layout: Main,
@@ -36,6 +32,36 @@ export const Employee = [
         isPrivate: "true",
         path: "/books/edit/:id",
         component: bookEdit
+    },
+    {
+        layout: Main,
+        isPrivate: "true",
+        path: "/clients",
+        component: Client
+    },
+    {
+        layout: Main,
+        isPrivate: "true",
+        path: "/clients/create",
+        component: clientCreate
+    },
+    {
+        layout: Main,
+        isPrivate: "true",
+        path: "/clients/edit/:id",
+        component: clientEdit
+    },
+    {
+        layout: Main,
+        isPrivate: "true",
+        path: "/client/:id/books",
+        component: UserBooks
+    },
+    {
+        layout: Main,
+        isPrivate: "true",
+        path: '/returns',
+        component: BookReturn
     },
     {
         layout: Main,

@@ -77,8 +77,9 @@ class BookOrderController extends ActiveController
     {
         if (Yii::$app->user->can('client')) {
             return BookOrder::getUserOrders(Yii::$app->user->id);
-        } else if (Yii::$app->user->can('employee'))
+        } else if (Yii::$app->user->can('employee')) {
             return BookOrder::getOrders();
+        }
 
         return null;
     }

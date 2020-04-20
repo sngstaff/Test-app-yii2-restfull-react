@@ -20,6 +20,7 @@ class BookOrder extends ActiveRecord
 {
     const STATUS_WAIT = 0;
     const STATUS_ISSUED = 1;
+    const STATUS_RETURNED = 2;
 
     /**
      * {@inheritdoc}
@@ -71,8 +72,9 @@ class BookOrder extends ActiveRecord
     {
         return (new Query())
             ->from('book_order bo')
-            ->select('bo.id as order_id, b.title as book_title, bo.quantity, bo.status, bo.created_at as order_at, b.code as book_code, b.author as book_author')
+            ->select('bo.id as order_id, b.id as book_id, b.title as book_title, bo.quantity, bo.status, bo.created_at as order_at, b.code as book_code, b.author as book_author, c.name as client_name, c.surname as client_surname, c.id as client_id')
             ->leftJoin('book as b', 'bo.book_id = b.id')
+            ->leftJoin('user as c','c.id = bo.client_id')
             ->all();
     }
 }

@@ -330,15 +330,112 @@ a.btn {
     width: 30px;
 }
 
-.btn-cancel {
+.btn-op {
     font-size: 13px;
     padding: 3px 6px;
-    background: #E57373;
     border-radius: 4px;
     cursor: pointer;
     color: #fff;
 }
 
+.btn-cancel {
+    background: #E57373;
+}
+
 .btn-cancel:hover {
     background: #EF5350;
+}
+
+.btn-success {
+    background: #81C784;
+}
+
+.btn-success:hover {
+    background: #66BB6A;
+}
+
+button.toggle {
+    display: none;
+}
+
+.btn-gray {
+    background: #9E9E9E;
+}
+
+@media screen and (max-width: 768px) {
+    div.fio {
+        display: none;
+    }
+
+    button.toggle {
+        display: block;
+        height: 30px;
+        width: 30px;
+        border: none;
+        background: transparent;
+    }
+
+    span.burger {
+        position: relative;
+        width: 100%;
+        height: 2px;
+        background: #2d2d2d;
+        display: block;
+    }
+
+    span.burger::after,
+    span.burger::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: #2d2d2d;
+    }
+
+    button.toggle[aria-expanded="true"] span.burger {
+        background: transparent;
+        transform: rotate(45deg);
+    }
+
+    button.toggle[aria-expanded="true"] span.burger::after {
+        top: 0;
+    }
+
+    button.toggle[aria-expanded="true"] span.burger::before {
+        transform: rotate(90deg);
+        bottom: 0;
+
+    }
+
+    span.burger::before {
+        bottom: 5px;
+    }
+
+    span.burger::after {
+        top: 5px;
+    }
+
+    .logotype .logo {
+        font-size: 18px;
+    }
+
+    ul.nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #607d8b;
+        z-index: 999;
+        padding: 0 15px 15px;
+    }
+
+    .logotype {
+        margin-right: 10px;
+    }
+
+    ul.nav.show {
+        display: block;
+    }
 }

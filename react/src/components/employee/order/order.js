@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTable, useGlobalFilter, usePagination, useSortBy } from 'react-table';
 
-import './books.css';
+import './order.css';
 
 import { Breadcrumbs } from "@components/global";
 import { Progress } from '@progress/linear';
 import { Alert } from "@alert";
 import ApiService from "@services/apiService";
+import { config } from "@config";
 
 function GlobalFilter({ globalFilter, setGlobalFilter }) {
     return (
@@ -52,14 +53,14 @@ function Table({ columns, data }) {
             <table className="data__table" { ...getTableProps() }>
                 <thead className="data__table-head">
                 <tr className="data__table-head__actions">
-                    <th colSpan="1">
+                    <th colSpan="2">
                         <GlobalFilter
                             preGlobalFilteredRows={ preGlobalFilteredRows }
                             globalFilter={ state.globalFilter }
                             setGlobalFilter={ setGlobalFilter }
                         />
                     </th>
-                    <th colSpan="7">
+                    <th colSpan="6">
                         <div className="data__table-action__pagination">
                             <div className="lines">
                                 <span className="viewed">
@@ -121,7 +122,7 @@ function Table({ columns, data }) {
                         </tr>
                     );
                 }) : (<tr className="data__table-body__wrapper">
-                    <td className="data__table-body__item" colSpan="6">Нет данных</td>
+                    <td className="data__table-body__item" colSpan="8">Нет данных</td>
                 </tr>) }
                 </tbody>
             </table>
@@ -129,30 +130,27 @@ function Table({ columns, data }) {
     );
 }
 
-function UserBooks(props) {
+function Popup(props) {
+    return (
+        <div className="popup">
+            <input type="date" />
+        </div>
+    )
+}
+
+function Order() {
     const
-        breadcrumbs = [
-            { link: '/clients', name: 'Клиенты' },
-            { name: 'Список книг клиента' },
-        ],
-        [ books, setBooks ] = useState([]),
-        [ user, setUser ] = useState([]),
+        breadcrumbs = [{ name: 'Мои заказы' }],
+        [ orders, setOrders ] = useState([]),
         [ loading, setLoading ] = useState(true),
         [ error, setError ] = useState(false),
         [ message, setMessage ] = useState('');
 
     useEffect(() => {
-        let { id } = props.match.params;
-
-        (new ApiService).getUser(id)
-            .then(res => {
-                setUser(res);
-            });
-
-        (new ApiService).getUserBooks(id)
+        (new ApiService()).getOrders()
             .then(res => {
                 setLoading(false);
-                setBooks(res);
+                setOrders(res);
             })
             .catch(err => {
                 if (err.message.search('fetch') > -1 ) {
@@ -161,66 +159,109 @@ function UserBooks(props) {
                     setMessage('Повторите попытку позже');
                 }
             });
+
     }, []);
+
+    function giveBook(order) {
+        let { book_id, order_id, client_id, quantity } = order,
+            data = {
+                book_id,
+                client_id,
+                order_id,
+                reference_id: 1,
+                quantity
+            };
+
+        (new ApiService()).giveBook(data)
+            .then(res => {
+                if (res.status === 200) {
+                    setOrders(orders.filter((el) => {
+                        if (el.order_id === order_id) {
+                            el.status = 1;
+                        }
+                        return el;
+                    }));
+                    setMessage(res.message);
+                }
+            })
+    }
 
     const columns = useMemo(
         () => [
+            {
+                Header: 'Номер',
+                accessor: ({ order_id }) => (<div className="text-center">{ order_id }</div>),
+                className: 'data__table-head__item item-number text-center',
+            },
             {
                 Header: 'Книга',
                 accessor: 'book_title',
                 className: 'data__table-head__item'
             },
             {
-                Header: 'Выдал',
-                accessor: ({ employee_name, employee_surname }) => employee_name + ' ' + ( employee_surname !== null ? employee_surname : '' ),
+                Header: 'Автор',
+                accessor: 'book_author',
                 className: 'data__table-head__item'
             },
             {
-                Header: 'Дата возврата',
-                accessor: ({ issue_at }) => new Date(issue_at*1000).toLocaleDateString("ru-RU"),
-                className: 'data__table-head__item'
-            },
-            {
-                Header: 'Дата выдачи',
-                accessor: ({ created_at }) => new Date(created_at*1000).toLocaleDateString("ru-RU") + ' ' + new Date(created_at*1000).toLocaleTimeString("ru-RU"),
+                Header: 'Артикул',
+                accessor: 'book_code',
                 className: 'data__table-head__item'
             },
             {
                 Header: 'Кол-во',
-                accessor: 'book_quantity',
+                accessor: 'quantity',
                 className: 'data__table-head__item'
             },
             {
-                Header: 'Состояние книги',
-                accessor: 'status',
+                Header: 'Дата заказа',
+                accessor: ({ order_at }) => new Date(order_at*1000).toLocaleDateString("ru-RU") + ' ' + new Date(order_at*1000).toLocaleTimeString("ru-RU"),
+                className: 'data__table-head__item'
+            },
+            {
+                Header: 'Статус',
+                accessor: ({ status }) => {
+                    switch(status) {
+                        case config.STATUS_WAIT:
+                            return 'В обработке';
+                        case config.STATUS_ISSUED:
+                            return 'Выдан';
+                        case config.STATUS_RETURNED:
+                            return 'Возвращен';
+                        default:
+                            return 'Не известно'
+                    }
+                },
+                className: 'data__table-head__item'
+            },
+            {
+                Header: 'Операции',
+                accessor: ( order ) => {
+                    switch(order.status) {
+                        case config.STATUS_WAIT:
+                            return (<span className="btn-op btn-success" onClick={ () => giveBook(order) }>Выдать</span>);
+                        default:
+                            return '-';
+                    }
+                },
                 className: 'data__table-head__item'
             }
         ]
     );
 
-    function clientInfo() {
-        if (user.length !== 0) {
-            let { name, surname } = user;
-            return (name + ' ' + (surname !== null ? surname : ''))
-        }
-
-        return false;
-    }
-
     return (
         <>
         <Breadcrumbs routes={ breadcrumbs } />
-
         { message && !error ? <Alert color="success">{ message }</Alert> : null }
         { error ? <Alert color="error">{ message }</Alert> : null }
         <div className="layout__wrapper">
             <div className="layout__wrapper-title">
-                <span className="title">Список книг клиента: { clientInfo() }</span>
+                <span className="title">Список заказов</span>
             </div>
-            { loading ? <Progress /> : <Table columns={ columns } data={ books } /> }
+            { loading ? <Progress /> : <Table columns={ columns } data={ orders } /> }
         </div>
         </>
     )
 }
 
-export { UserBooks }
+export { Order }

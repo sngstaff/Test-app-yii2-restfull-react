@@ -10,8 +10,7 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
         'authManager' => [
-            'class' => 'yii\rbac\DbManager',
-            'defaultRoles' => ['client']
+            'class' => 'yii\rbac\DbManager'
         ],
     ],
 ];

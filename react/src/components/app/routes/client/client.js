@@ -3,14 +3,8 @@ import { Main } from '@layout';
 import { NotFound } from "@layout/main/404";
 
 /* components or pages */
-import { Book } from "@components/client";
+import { Book, BookReturn } from "@components/client";
 import { Order } from "@pages";
-
-const Test = () => {
-    return (
-        <h1>test</h1>
-    )
-};
 
 export const Client = [
     {
@@ -29,7 +23,7 @@ export const Client = [
         layout: Main,
         isPrivate: "true",
         path: "/returns",
-        component: Test
+        component: BookReturn
     },
     {
         layout: Main,
